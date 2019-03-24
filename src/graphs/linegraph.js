@@ -2,15 +2,17 @@ import * as d3 from 'd3';
 /**
  * Line graph abstraction for basic d3 line graph
  * @param {array} dataPoints - array containing key value pairs of.
- * @param {stirng} filter - property to filter on from data.
+ * @param {stirng} xFilter - property to filter on X from data.
+ * @param {stirng} yFilter - property to filter on Y from data.
  * @return {*} svg - returns grpah area.
  */
-export const lineGraph = (dataPoints, filter) => {
+export const lineGraph = (dataPoints, xFilter, yFilter) => {
   // set the dimensions and margins of the graph
   const margin = {top: 10, right: 30, bottom: 30, left: 60};
   const width = 460 - margin.left - margin.right;
   const height = 400 - margin.top - margin.bottom;
 
+  d3.select('svg').remove();
   // append the svg object to the body of the page
   const svg = d3.select('#data')
       .append('svg')
@@ -21,7 +23,7 @@ export const lineGraph = (dataPoints, filter) => {
 
   // Read the data
   // When reading the csv, I must format variables:
-  const data = parseData(dataPoints, filter);
+  const data = parseData(dataPoints, xFilter, yFilter);
   // Now I can use this dataset:
 
   // Add X axis --> it is a date format
@@ -43,18 +45,27 @@ export const lineGraph = (dataPoints, filter) => {
   svg.append('g')
       .call(d3.axisLeft(y));
 
-  addLineToGraph(svg, x, y, data, 'steelblue');
+  svg.append('path')
+      .datum(data)
+      .attr('fill', 'none')
+      .attr('stroke', 'steelblue')
+      .attr('stroke-width', 1.5)
+      .attr('d', d3.line()
+          .x(function(d) {
+            return x(d.date);
+          })
+          .y(function(d) {
+            return y(d.value);
+          })
+      );
 
   return {svg, x, y};
 };
 
-export const addLineToGraph = (graph, x, y, data, color, filter=null) => {
-  let filteredData = data;
-  if (!!filter) {
-    filteredData = parseData(data, filter);
-  }
-  console.log(filter);
+export const addLineToGraph = (graph, x, y, data, color, xFilter, yFilter) => {
+  const filteredData = parseData(data, xFilter, yFilter);
   // Add the line
+  console.log(filteredData);
   graph.append('path')
       .datum(filteredData)
       .attr('fill', 'none')
@@ -73,12 +84,15 @@ export const addLineToGraph = (graph, x, y, data, color, filter=null) => {
 /**
  *
  * @param {*} dataPoints - data points to be formated in graph spec
- * @param {string} filter - filtering property.
+ * @param {string} xFilter - filtering property for X axis.
+ * @param {string} yFilter - filtering property for Y axis.
  * @return {array}
  */
-const parseData = (dataPoints, filter) => {
+const parseData = (dataPoints, xFilter, yFilter) => {
+  console.log('xFilter=' + xFilter);
+  console.log('yFilter=' + yFilter);
   return dataPoints.map((point) => ({
-    date: d3.timeParse('%Y-%m-%d')(point.date),
-    value: point.value[filter],
+    date: d3.timeParse('%Y-%m-%d')(point[xFilter]),
+    value: point[yFilter],
   }));
 };
