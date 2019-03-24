@@ -4,6 +4,7 @@ import {getUsHousePriceIndex, getUsEmploymentRates} from './apiWrapper.js';
 import {Router, Route, Switch} from 'react-router-dom';
 import Comparison from './components/comparison';
 import Insights from './components/insights';
+import Breakdown from './components/breakdown';
 const createBrowserHistory = require('history').createBrowserHistory;
 
 const history = createBrowserHistory();
@@ -53,7 +54,7 @@ class App extends Component {
                   rates={this.state.usEmploymentRates} />}
             />
             <Route exact path='/insights' component={Insights}/>
-            <Route exact path='/breakdown' component={React.component} />
+            <Route exact path='/breakdown' component={Breakdown} />
             <Route render={function() {
               return <p> Not Found </p>;
             }} />

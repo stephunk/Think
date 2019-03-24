@@ -13,6 +13,7 @@
 
 # workspace
 .vscode
+.netlify
 
 # misc
 .DS_Store
