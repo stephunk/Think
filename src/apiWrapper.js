@@ -8,8 +8,7 @@ const US_EMPLOYMENT_API = 'https://storage.googleapis.com/gweb-dat-coding-challe
 export const getUsHousePriceIndex = () => {
   const result = fetch(US_HOUSE_PRICE_INDEX_API)
       .then(status)
-      .then((response) => response.json())
-      .then(parseUsHousePriceIndex);
+      .then((response) => response.json());
   return result;
 };
 
@@ -68,6 +67,6 @@ export const getUsEmploymentRates = () => {
 export const parseUsEmploymentData = (json) => {
   return json.map((dataPoint) => {
     const {year, ...rates} = dataPoint;
-    return {date: year.toString() + '-01-01', value: {...rates}};
+    return {year: year.toString() + '-01-01', ...rates};
   });
 };
