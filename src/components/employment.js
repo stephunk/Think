@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
-import * as graphs from '../graphs/linegraph.js';
+import Graph from './graph';
 
-const filter = 'National-US';
 /**
  *
  */
@@ -10,17 +9,6 @@ class Employment extends Component {
  * @param {*} prevProps - props before update
  */
   componentDidMount() {
-    console.log(this.props.indexes);
-    const graph = graphs.lineGraph(this.props.indexes, filter);
-    graphs.addLineToGraph(
-        graph.svg,
-        graph.x,
-        graph.y,
-        this.props.rates,
-        'orange',
-        'employed_percent'
-    );
-    this.setState({graph});
   }
 
   /**
@@ -28,7 +16,12 @@ class Employment extends Component {
  */
   render() {
     return (
-      <div id="data"></div>
+      <Graph
+        dataset1={this.props.indexes}
+        dataset2={this.props.rates}
+        dataset1X='Date'
+        dataset2X='year'
+      />
     );
   }
 }
