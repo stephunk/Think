@@ -27,7 +27,10 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "d3": "^5.9.2",
     "eslint": "^5.12.0",
-    "eslint-config-google": "^0.12.0"
+    "eslint-config-google": "^0.12.0",
+    "history": "^4.9.0",
+    "react-router-dom": "^5.0.0"
   }
 }
