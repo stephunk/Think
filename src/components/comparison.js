@@ -4,7 +4,7 @@ import Graph from './graph';
 /**
  *
  */
-class Employment extends Component {
+class Comparison extends Component {
 /**
  * @param {*} prevProps - props before update
  */
@@ -26,9 +26,9 @@ class Employment extends Component {
   }
 }
 
-Employment.defaultProps = {
+Comparison.defaultProps = {
   indexes: [],
   rates: [],
 };
 
-export default Employment;
+export default Comparison;
