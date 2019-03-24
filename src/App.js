@@ -5,6 +5,7 @@ import {Router, Route, Switch} from 'react-router-dom';
 import Comparison from './components/comparison';
 import Insights from './components/insights';
 import Breakdown from './components/breakdown';
+import Menu from './components/menu';
 const createBrowserHistory = require('history').createBrowserHistory;
 
 const history = createBrowserHistory();
@@ -45,22 +46,27 @@ class App extends Component {
    */
   render() {
     return (
-      <Router history={history} basename='/'>
-        <div className='App-body'>
-          <Switch>
-            <Route exact path='/(comparison|)/'
-              component={() =>
-                <Comparison indexes={this.state.usHousePriceIndex}
-                  rates={this.state.usEmploymentRates} />}
-            />
-            <Route exact path='/insights' component={Insights}/>
-            <Route exact path='/breakdown' component={Breakdown} />
-            <Route render={function() {
-              return <p> Not Found </p>;
-            }} />
-          </Switch>
-        </div>
-      </Router>
+      <div>
+
+
+        <Router history={history} basename='/'>
+          <Menu/>
+          <div className='App-body'>
+            <Switch>
+              <Route exact path='/(comparison|)/'
+                component={() =>
+                  <Comparison indexes={this.state.usHousePriceIndex}
+                    rates={this.state.usEmploymentRates} />}
+              />
+              <Route path='/insights' component={Insights}/>
+              <Route path='/breakdown' component={Breakdown} />
+              <Route render={function() {
+                return <p> Not Found </p>;
+              }} />
+            </Switch>
+          </div>
+        </Router>
+      </div>
     );
   }
 }
