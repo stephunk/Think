@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  background-color: #282c34;
 }
 
 
@@ -18,5 +19,13 @@
   color: #61dafb;
 }
 
+.flex-container {
+  display:flex;
+  flex-direction: row;
+
+}
+.dropdown-dataset {
+  margin: 10px;
+}
 
 
