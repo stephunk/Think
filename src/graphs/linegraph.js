@@ -1,10 +1,9 @@
 import * as d3 from 'd3';
-// import React, {Component} from 'react';
-
 /**
  * Line graph abstraction for basic d3 line graph
  * @param {array} dataPoints - array containing key value pairs of.
  * @param {stirng} filter - property to filter on from data.
+ * @return {*} svg - returns grpah area.
  */
 export const lineGraph = (dataPoints, filter) => {
   // set the dimensions and margins of the graph
@@ -44,11 +43,22 @@ export const lineGraph = (dataPoints, filter) => {
   svg.append('g')
       .call(d3.axisLeft(y));
 
+  addLineToGraph(svg, x, y, data, 'steelblue');
+
+  return {svg, x, y};
+};
+
+export const addLineToGraph = (graph, x, y, data, color, filter=null) => {
+  let filteredData = data;
+  if (!!filter) {
+    filteredData = parseData(data, filter);
+  }
+  console.log(filter);
   // Add the line
-  svg.append('path')
-      .datum(data)
+  graph.append('path')
+      .datum(filteredData)
       .attr('fill', 'none')
-      .attr('stroke', 'steelblue')
+      .attr('stroke', color)
       .attr('stroke-width', 1.5)
       .attr('d', d3.line()
           .x(function(d) {
@@ -59,15 +69,16 @@ export const lineGraph = (dataPoints, filter) => {
           })
       );
 };
+
 /**
  *
  * @param {*} dataPoints - data points to be formated in graph spec
  * @param {string} filter - filtering property.
  * @return {array}
  */
-function parseData(dataPoints, filter) {
+const parseData = (dataPoints, filter) => {
   return dataPoints.map((point) => ({
     date: d3.timeParse('%Y-%m-%d')(point.date),
     value: point.value[filter],
   }));
-}
+};
