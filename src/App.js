@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import './css/App.css';
-import {getUsHousePriceIndex} from './apiWrapper.js';
+import {getUsHousePriceIndex, getUsEmploymentRates} from './apiWrapper.js';
 import {Router, Route, Switch} from 'react-router-dom';
 import Employment from './components/employment';
 const createBrowserHistory = require('history').createBrowserHistory;
@@ -24,8 +24,17 @@ class App extends Component {
    * Used for calling data APIs.
   */
   componentDidMount() {
-    getUsHousePriceIndex()
-        .then((data) => this.setState({usHousePriceIndex: data}));
+    let usEmploymentRates;
+    let usHousePriceIndex;
+
+    getUsEmploymentRates()
+        .then((rates) => usEmploymentRates = rates)
+        .then(getUsHousePriceIndex()
+            .then((index) => usHousePriceIndex = index)
+            .then(() => this.setState({
+              usHousePriceIndex,
+              usEmploymentRates,
+            })));
   }
 
   /**
@@ -39,7 +48,8 @@ class App extends Component {
           <Switch>
             <Route exact path='/'
               component={() =>
-                <Employment indexes={this.state.usHousePriceIndex} />}
+                <Employment indexes={this.state.usHousePriceIndex}
+                  rates={this.state.usEmploymentRates} />}
             />
             {/* <Route exact path='/' component={React.component}/>
             <Route exact path='/login' component={React.component} /> */}
