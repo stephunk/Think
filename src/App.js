@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import './css/App.css';
 import {getUsHousePriceIndex, getUsEmploymentRates} from './apiWrapper.js';
 import {Router, Route, Switch} from 'react-router-dom';
-import Employment from './components/employment';
+import Comparison from './components/comparison';
+import Insights from './components/insights';
 const createBrowserHistory = require('history').createBrowserHistory;
 
 const history = createBrowserHistory();
@@ -44,15 +45,15 @@ class App extends Component {
   render() {
     return (
       <Router history={history} basename='/'>
-        <div className='App-header'>
+        <div className='App-body'>
           <Switch>
-            <Route exact path='/'
+            <Route exact path='/(comparison|)/'
               component={() =>
-                <Employment indexes={this.state.usHousePriceIndex}
+                <Comparison indexes={this.state.usHousePriceIndex}
                   rates={this.state.usEmploymentRates} />}
             />
-            {/* <Route exact path='/' component={React.component}/>
-            <Route exact path='/login' component={React.component} /> */}
+            <Route exact path='/insights' component={Insights}/>
+            <Route exact path='/breakdown' component={React.component} />
             <Route render={function() {
               return <p> Not Found </p>;
             }} />
