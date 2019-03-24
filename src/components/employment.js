@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import * as graph from '../graphs/linegraph.js';
+import * as graphs from '../graphs/linegraph.js';
 
 const filter = 'National-US';
 /**
@@ -10,7 +10,17 @@ class Employment extends Component {
  * @param {*} prevProps - props before update
  */
   componentDidMount() {
-    graph.lineGraph(this.props.indexes, filter);
+    console.log(this.props.indexes);
+    const graph = graphs.lineGraph(this.props.indexes, filter);
+    graphs.addLineToGraph(
+        graph.svg,
+        graph.x,
+        graph.y,
+        this.props.rates,
+        'orange',
+        'employed_percent'
+    );
+    this.setState({graph});
   }
 
   /**
@@ -25,6 +35,7 @@ class Employment extends Component {
 
 Employment.defaultProps = {
   indexes: [],
+  rates: [],
 };
 
 export default Employment;
