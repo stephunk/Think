@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import * as graphs from '../graphs/linegraph.js';
 import {Dropdown} from 'react-bootstrap';
 
-const filter1 = 'National-US';
-const filter2 = 'employed_percent';
 /**
  *
  */
@@ -44,9 +42,12 @@ class Graph extends Component {
   /**
    *
    * @param {*} prevProps
+   * @param {*} prevState
+   * @param {*} snapshot
    */
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (this.state.filter1 !== prevState.filter1 || this.state.filter2 !== prevState.filter2) {
+    if (this.state.filter1 !== prevState.filter1 ||
+      this.state.filter2 !== prevState.filter2) {
       this.generateGraph();
     }
   }
@@ -88,7 +89,11 @@ class Graph extends Component {
 
               <Dropdown.Menu>
                 {Object.keys(this.props.dataset1[0]).map((key) =>
-                  <Dropdown.Item key={key} eventKey={key} onSelect={this.createHandleFilter(1)}>
+                  <Dropdown.Item
+                    key={key}
+                    eventKey={key}
+                    onSelect={this.createHandleFilter(1)}
+                  >
                     {key}
                   </Dropdown.Item>)}
               </Dropdown.Menu>
@@ -102,7 +107,11 @@ class Graph extends Component {
 
               <Dropdown.Menu>
                 {Object.keys(this.props.dataset2[0]).map((key) =>
-                  <Dropdown.Item key={key} eventKey={key} onSelect={this.createHandleFilter(2)}>
+                  <Dropdown.Item
+                    key={key}
+                    eventKey={key}
+                    onSelect={this.createHandleFilter(2)}
+                  >
                     {key}
                   </Dropdown.Item>)}
               </Dropdown.Menu>
