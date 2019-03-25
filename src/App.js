@@ -59,7 +59,11 @@ class App extends Component {
                     rates={this.state.usEmploymentRates} />}
               />
               <Route path='/insights' component={Insights}/>
-              <Route path='/breakdown' component={Breakdown} />
+              <Route path='/breakdown'
+                component={() =>
+                  <Breakdown
+                    rates={this.state.usEmploymentRates} />}
+              />
               <Route render={function() {
                 return <p> Not Found </p>;
               }} />

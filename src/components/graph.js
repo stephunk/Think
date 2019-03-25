@@ -13,9 +13,12 @@ class Graph extends Component {
    */
   constructor(props) {
     super(props);
+    console.log(props.filter);
     this.state = {
-      filter: null,
+      filter: !!props.filter ? props.filter : null,
+      hideDropdown: !!props.filter,
     };
+
     this.createHandleFilter = this.createHandleFilter.bind(this);
     this.generateGraphs = this.generateGraphs.bind(this);
   }
@@ -48,6 +51,12 @@ class Graph extends Component {
     if (this.state.filter !== prevState.filter) {
       this.generateGraphs();
     }
+    if (prevProps.filter !== this.props.filter) {
+      this.setState({
+        filter: this.props.filter,
+        hideDropdown: true,
+      });
+    }
   }
 
   /**
@@ -68,9 +77,10 @@ class Graph extends Component {
    */
   render() {
     console.log('Rendering Graph Component..');
+    console.log(this.state.filter);
     return (
       <div>
-        {this.props.dataset.length > 0 &&
+        {this.props.dataset.length > 0 && this.props.dropdownVisible &&
               <Dropdown>
                 <Dropdown.Toggle variant="success" className="dropdown-dataset">
                   {this.props.datasetLabel}
@@ -99,10 +109,13 @@ Graph.propTypes = {
   datasetX: PropTypes.string,
   datasetLabel: PropTypes.string,
   graphId: PropTypes.string,
+  filter: PropTypes.string,
+  dropdownVisible: PropTypes.bool,
 };
 Graph.defaultProps = {
   datasetX: 'date',
   dataset: [],
+  dropdownVisible: true,
 };
 
 export default Graph;

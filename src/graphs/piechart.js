@@ -2,18 +2,19 @@ import * as d3 from 'd3';
 /**
  *
  * @param {string} elementId - HTML element id to contain graph.
+ * @param {array} dataPoints - dataset to be parsed and dsiplayed
+ * @param {array} labels - set labels
  * @param {Function} clickBehaviour - callback to register click on slice.
  */
-export const pieChart = (elementId, clickBehaviour) => {
+export const pieChart = (elementId, dataPoints, labels, clickBehaviour) => {
   const w = 300; // width
   const h = 300; // height
   const r = 100; // radius
 
   const color = d3.scaleOrdinal(d3.schemeCategory10); // builtin range of colors
 
-  const data = [{'label': 'one', 'value': 20},
-    {'label': 'two', 'value': 50},
-    {'label': 'three', 'value': 30}];
+  const data = parseData(dataPoints, labels);
+  d3.select('svg').remove();
 
   const vis = d3.select('#' + elementId)
       .append('svg:svg')
@@ -38,7 +39,8 @@ export const pieChart = (elementId, clickBehaviour) => {
       .enter()
       .append('svg:g')
       .attr('class', 'slice')
-      .on('click', clickBehaviour); // bind click function to all slices
+      .on('click', (a) =>
+        clickBehaviour(a.data.key)); // bind click function to all slices
 
   // Set colors and draw arcs
   arcs.append('svg:path')
@@ -60,4 +62,16 @@ export const pieChart = (elementId, clickBehaviour) => {
       .text(function(d, i) {
         return data[i].label;
       }); // get the label from our original data array
+};
+
+const parseData = (dataPoints, labels) => {
+  let total = 0;
+  Object.keys(dataPoints).forEach((key) => {
+    total += dataPoints[key];
+  });
+  return Object.keys(dataPoints).map((key, index) => ({
+    key: key,
+    label: labels[index],
+    value: (dataPoints[key]/total) * 100,
+  }));
 };
