@@ -16,14 +16,20 @@ class Comparison extends Component {
  */
   render() {
     return (
-      <Graph
-        dataset1={this.props.indexes}
-        dataset1X='Date'
-        dataset1Label='US House Price Indexes'
-        dataset2={this.props.rates}
-        dataset2X='year'
-        dataset2Label='US Employment rates'
-      />
+      <div className='flex-container'>
+        <Graph
+          dataset={this.props.indexes}
+          datasetX='Date'
+          datasetLabel='US House Price Indexes'
+          graphId='breakdown-graph1'
+        />
+        <Graph
+          graphId='breakdown-graph2'
+          dataset={this.props.rates}
+          datasetX='year'
+          datasetLabel='US Employment rates'
+        />
+      </div>
     );
   }
 }

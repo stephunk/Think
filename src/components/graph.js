@@ -14,12 +14,10 @@ class Graph extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      filter1: null,
-      filter2: null,
-      graphId: 'comparison-linegraph',
+      filter: null,
     };
     this.createHandleFilter = this.createHandleFilter.bind(this);
-    this.generateGraph = this.generateGraph.bind(this);
+    this.generateGraphs = this.generateGraphs.bind(this);
   }
 
   /**
@@ -29,7 +27,7 @@ class Graph extends Component {
   createHandleFilter(id) {
     return (eventKey, event) => {
       this.setState({
-        ['filter' + id]: eventKey,
+        filter: eventKey,
       });
     };
   }
@@ -38,7 +36,7 @@ class Graph extends Component {
    *
    */
   componentDidMount() {
-    this.generateGraph();
+    this.generateGraphs();
   }
   /**
    *
@@ -47,33 +45,23 @@ class Graph extends Component {
    * @param {*} snapshot
    */
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (this.state.filter1 !== prevState.filter1 ||
-      this.state.filter2 !== prevState.filter2) {
-      this.generateGraph();
+    if (this.state.filter !== prevState.filter) {
+      this.generateGraphs();
     }
   }
 
   /**
    * Generate graph
    */
-  generateGraph() {
+  generateGraphs() {
     console.log('Generating Graph..');
-    const graph = graphs.lineGraph(
-        this.state.graphId,
-        this.props.dataset1,
-        this.props.dataset1X,
-        this.state.filter1
+    const graph1 = graphs.lineGraph(
+        this.props.graphId,
+        this.props.dataset,
+        this.props.datasetX,
+        this.state.filter
     );
-    graphs.addLineToGraph(
-        graph.svg,
-        graph.x,
-        graph.y,
-        this.props.dataset2,
-        'orange',
-        this.props.dataset2X,
-        this.state.filter2
-    );
-    this.setState({graph});
+    this.setState({graph1});
   }
   /**
    * @return {*}
@@ -82,63 +70,39 @@ class Graph extends Component {
     console.log('Rendering Graph Component..');
     return (
       <div>
-        <div className='flex-container'>
-          {this.props.dataset1.length > 0 &&
-            <Dropdown>
-              <Dropdown.Toggle variant="success" className="dropdown-dataset">
-                {this.props.dataset1Label}
-              </Dropdown.Toggle>
+        {this.props.dataset.length > 0 &&
+              <Dropdown>
+                <Dropdown.Toggle variant="success" className="dropdown-dataset">
+                  {this.props.datasetLabel}
+                </Dropdown.Toggle>
 
-              <Dropdown.Menu>
-                {Object.keys(this.props.dataset1[0]).map((key) =>
-                  key !== this.props.dataset1X && <Dropdown.Item
-                    key={key}
-                    eventKey={key}
-                    onSelect={this.createHandleFilter(1)}
-                  >
-                    {key}
-                  </Dropdown.Item>)}
-              </Dropdown.Menu>
-            </Dropdown>
-          }
-          {this.props.dataset2.length > 0 &&
-            <Dropdown>
-              <Dropdown.Toggle variant="success" className="dropdown-dataset">
-                {this.props.dataset2Label}
-              </Dropdown.Toggle>
-
-              <Dropdown.Menu>
-                {Object.keys(this.props.dataset2[0]).map((key) =>
-                  key !== this.props.dataset2X && <Dropdown.Item
-                    key={key}
-                    eventKey={key}
-                    onSelect={this.createHandleFilter(2)}
-                  >
-                    {key}
-                  </Dropdown.Item>)}
-              </Dropdown.Menu>
-            </Dropdown>
-          }
-        </div>
-        <div id={this.state.graphId}></div>
+                <Dropdown.Menu>
+                  {Object.keys(this.props.dataset[0]).map((key) =>
+                    key !== this.props.datasetX && <Dropdown.Item
+                      key={key}
+                      eventKey={key}
+                      onSelect={this.createHandleFilter(1)}
+                    >
+                      {key}
+                    </Dropdown.Item>)}
+                </Dropdown.Menu>
+              </Dropdown>
+        }
+        <div id={this.props.graphId}></div>
       </div>
     );
   }
 }
 
 Graph.propTypes = {
-  dataset1: PropTypes.array,
-  dataset1X: PropTypes.string,
-  dataset1Label: PropTypes.string,
-  dataset2: PropTypes.array,
-  dataset2X: PropTypes.string,
-  dataset2Label: PropTypes.string,
+  dataset: PropTypes.array,
+  datasetX: PropTypes.string,
+  datasetLabel: PropTypes.string,
+  graphId: PropTypes.string,
 };
 Graph.defaultProps = {
-  dataset1X: 'date',
-  dataset2X: 'date',
-  dataset1: [],
-  dataset2: [],
+  datasetX: 'date',
+  dataset: [],
 };
 
 export default Graph;
