@@ -18,9 +18,11 @@ class Comparison extends Component {
     return (
       <Graph
         dataset1={this.props.indexes}
-        dataset2={this.props.rates}
         dataset1X='Date'
+        dataset1Label='US House Price Indexes'
+        dataset2={this.props.rates}
         dataset2X='year'
+        dataset2Label='US Employment rates'
       />
     );
   }

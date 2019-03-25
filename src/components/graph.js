@@ -16,6 +16,7 @@ class Graph extends Component {
     this.state = {
       filter1: null,
       filter2: null,
+      graphId: 'comparison-linegraph',
     };
     this.createHandleFilter = this.createHandleFilter.bind(this);
     this.generateGraph = this.generateGraph.bind(this);
@@ -56,8 +57,9 @@ class Graph extends Component {
    * Generate graph
    */
   generateGraph() {
-    console.log('generating posi');
+    console.log('Generating Graph..');
     const graph = graphs.lineGraph(
+        this.state.graphId,
         this.props.dataset1,
         this.props.dataset1X,
         this.state.filter1
@@ -77,19 +79,19 @@ class Graph extends Component {
    * @return {*}
    */
   render() {
-    console.log('rendering');
+    console.log('Rendering Graph Component..');
     return (
       <div>
         <div className='flex-container'>
           {this.props.dataset1.length > 0 &&
             <Dropdown>
               <Dropdown.Toggle variant="success" className="dropdown-dataset">
-                Dataset 1
+                {this.props.dataset1Label}
               </Dropdown.Toggle>
 
               <Dropdown.Menu>
                 {Object.keys(this.props.dataset1[0]).map((key) =>
-                  <Dropdown.Item
+                  key !== this.props.dataset1X && <Dropdown.Item
                     key={key}
                     eventKey={key}
                     onSelect={this.createHandleFilter(1)}
@@ -102,12 +104,12 @@ class Graph extends Component {
           {this.props.dataset2.length > 0 &&
             <Dropdown>
               <Dropdown.Toggle variant="success" className="dropdown-dataset">
-                Dataset 2
+                {this.props.dataset2Label}
               </Dropdown.Toggle>
 
               <Dropdown.Menu>
                 {Object.keys(this.props.dataset2[0]).map((key) =>
-                  <Dropdown.Item
+                  key !== this.props.dataset2X && <Dropdown.Item
                     key={key}
                     eventKey={key}
                     onSelect={this.createHandleFilter(2)}
@@ -118,7 +120,7 @@ class Graph extends Component {
             </Dropdown>
           }
         </div>
-        <div id="data"></div>
+        <div id={this.state.graphId}></div>
       </div>
     );
   }
@@ -127,8 +129,10 @@ class Graph extends Component {
 Graph.propTypes = {
   dataset1: PropTypes.array,
   dataset1X: PropTypes.string,
+  dataset1Label: PropTypes.string,
   dataset2: PropTypes.array,
   dataset2X: PropTypes.string,
+  dataset2Label: PropTypes.string,
 };
 Graph.defaultProps = {
   dataset1X: 'date',

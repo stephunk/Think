@@ -1,12 +1,13 @@
 import * as d3 from 'd3';
 /**
  * Line graph abstraction for basic d3 line graph
+ * @param {string} elementId - HTML element id to contain graph.
  * @param {array} dataPoints - array containing key value pairs of.
  * @param {stirng} xFilter - property to filter on X from data.
  * @param {stirng} yFilter - property to filter on Y from data.
  * @return {*} svg - returns grpah area.
  */
-export const lineGraph = (dataPoints, xFilter, yFilter) => {
+export const lineGraph = (elementId, dataPoints, xFilter, yFilter) => {
   // set the dimensions and margins of the graph
   const margin = {top: 10, right: 30, bottom: 30, left: 60};
   const width = 460 - margin.left - margin.right;
@@ -14,7 +15,7 @@ export const lineGraph = (dataPoints, xFilter, yFilter) => {
 
   d3.select('svg').remove();
   // append the svg object to the body of the page
-  const svg = d3.select('#data')
+  const svg = d3.select('#' + elementId)
       .append('svg')
       .attr('width', width + margin.left + margin.right)
       .attr('height', height + margin.top + margin.bottom)
@@ -65,7 +66,6 @@ export const lineGraph = (dataPoints, xFilter, yFilter) => {
 export const addLineToGraph = (graph, x, y, data, color, xFilter, yFilter) => {
   const filteredData = parseData(data, xFilter, yFilter);
   // Add the line
-  console.log(filteredData);
   graph.append('path')
       .datum(filteredData)
       .attr('fill', 'none')
@@ -89,8 +89,6 @@ export const addLineToGraph = (graph, x, y, data, color, xFilter, yFilter) => {
  * @return {array}
  */
 const parseData = (dataPoints, xFilter, yFilter) => {
-  console.log('xFilter=' + xFilter);
-  console.log('yFilter=' + yFilter);
   return dataPoints.map((point) => ({
     date: d3.timeParse('%Y-%m-%d')(point[xFilter]),
     value: point[yFilter],
