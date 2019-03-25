@@ -58,7 +58,12 @@ class App extends Component {
                   <Comparison indexes={this.state.usHousePriceIndex}
                     rates={this.state.usEmploymentRates} />}
               />
-              <Route path='/insights' component={Insights}/>
+              <Route path='/insights'
+                component={() =>
+                  <Insights
+                    dataset={this.state.usEmploymentRates}
+                    exclude={new Set(['year', 'footnotes'])} />}
+              />
               <Route path='/breakdown'
                 component={() =>
                   <Breakdown
