@@ -13,10 +13,11 @@ export const lineGraph = (elementId, dataPoints, xFilter, yFilter) => {
   const width = 460 - margin.left - margin.right;
   const height = 400 - margin.top - margin.bottom;
 
-  d3.select('svg').remove();
+  d3.select('#svg-' + elementId).remove();
   // append the svg object to the body of the page
   const svg = d3.select('#' + elementId)
       .append('svg')
+      .attr('id', 'svg-' + elementId)
       .attr('width', width + margin.left + margin.right)
       .attr('height', height + margin.top + margin.bottom)
       .append('g')
