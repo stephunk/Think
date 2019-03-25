@@ -51,7 +51,6 @@ class Insights extends Component {
   calculateMean() {
     const mean = {};
     const numberOfSamples = {};
-    console.log(this.props.exclude);
     this.props.dataset.forEach((dataPoint) => {
       Object.keys(dataPoint).forEach((key) => {
         if (!this.props.exclude.has(key)) {
