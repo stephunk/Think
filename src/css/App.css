@@ -22,7 +22,6 @@
 .flex-container {
   display:flex;
   flex-direction: row;
-
 }
 .dropdown-dataset {
   margin: 10px;
@@ -55,4 +54,8 @@
 
 .activeLink {
   color: #2F80ED;
+}
+
+.stat {
+  margin: 15px;
 }

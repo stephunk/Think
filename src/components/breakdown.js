@@ -8,7 +8,7 @@ import Graph from './graph';
  */
 class Breakdown extends Component {
   /**
-   *
+   *  Constructor override to set state.
    */
   constructor() {
     super();
@@ -22,8 +22,8 @@ class Breakdown extends Component {
     this.addLineGraph = this.addLineGraph.bind(this);
   }
   /**
-   *
-   */
+   * Override for standard React lifecycle method.
+  */
   componentDidMount() {
     this.calculateAverageDatset();
   }
@@ -47,7 +47,7 @@ class Breakdown extends Component {
   }
 
   /**
- *
+ * Set state key for selecting filter for line graph
  * @param {*} dataKey
  */
   addLineGraph(dataKey) {
@@ -58,7 +58,6 @@ class Breakdown extends Component {
    * Render Breakdown component
    */
   render() {
-    console.log(this.state.drillDownFilter);
     return (
       <div className='flex-container'>
         <div>
@@ -69,9 +68,10 @@ class Breakdown extends Component {
             labels={this.state.labels}
             linegraph={this.addLineGraph}
           />
-          <h3>U - Unemployed</h3>
-          <h3>E - Employed</h3>
-          <h3>N - Not in labour.</h3>
+          <h3>Click chart to show trend over years.</h3>
+          <h5>U - Unemployed</h5>
+          <h5>E - Employed</h5>
+          <h5>N - Not in labour.</h5>
         </div>
         <Graph
           dataset={this.props.rates}

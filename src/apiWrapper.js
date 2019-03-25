@@ -25,17 +25,6 @@ export const parseUsHousePriceIndex = (json) => {
 };
 
 /**
- * Function for filtering on a specific index
- * @param {String} filter - filter tha.
- * @param {Array} indexes - array of house prices indexes .
- * @return {Array} returns array with objects having the same key but
- * values containg members that match filter.
- */
-export const filterHousePriceIndex = (filter, indexes) => {
-  return [];
-};
-
-/**
  * @param {*} response - response from fetch req
  * @return {*}
  */

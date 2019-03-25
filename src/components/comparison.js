@@ -5,14 +5,9 @@ import Graph from './graph';
  *
  */
 class Comparison extends Component {
-/**
- * @param {*} prevProps - props before update
- */
-  componentDidMount() {
-  }
 
   /**
- *  @return {*}
+ *  @return {*} HTML component containing two graphs
  */
   render() {
     return (

@@ -7,7 +7,7 @@ import {pieChart} from '../graphs/piechart';
  */
 class Piechart extends Component {
   /**
-   *
+   *  Constructor override to set state.
    * @param {*} props
    */
   constructor(props) {
@@ -20,11 +20,10 @@ class Piechart extends Component {
     this.generateGraphs = this.generateGraphs.bind(this);
   }
   /**
-   *
-   */
+   * Override for standard React lifecycle method.
+   * Used to generate graphs
+  */
   componentDidMount() {
-    console.log('mounted');
-    console.log(this.props.dataset);
     this.generateGraphs();
   }
   /**
@@ -32,13 +31,11 @@ class Piechart extends Component {
    */
   componentDidUpdate(prevProps) {
     if (prevProps.dataset !== this.props.dataset) {
-      console.log('update');
-      console.log(this.props.labels);
       this.generateGraphs();
     }
   }
   /**
-  *
+  * Generate pie chart graph.
  */
   generateGraphs() {
     pieChart(

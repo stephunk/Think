@@ -4,16 +4,15 @@ import * as graphs from '../graphs/linegraph.js';
 import {Dropdown} from 'react-bootstrap';
 
 /**
- *
+ *  React Coomponent used to draw a d3 graph.
  */
 class Graph extends Component {
   /**
-   *
+   *  Constructor override to set state.
    * @param {*} props
    */
   constructor(props) {
     super(props);
-    console.log(props.filter);
     this.state = {
       filter: !!props.filter ? props.filter : null,
       hideDropdown: !!props.filter,
@@ -24,6 +23,7 @@ class Graph extends Component {
   }
 
   /**
+   * Creates function to handle changes in filter options
    * @param {*} id
    * @return {function}
    */
@@ -36,8 +36,9 @@ class Graph extends Component {
   }
 
   /**
-   *
-   */
+   * Override for standard React lifecycle method.
+   * Used to generate graphs
+  */
   componentDidMount() {
     this.generateGraphs();
   }
@@ -63,7 +64,6 @@ class Graph extends Component {
    * Generate graph
    */
   generateGraphs() {
-    console.log('Generating Graph..');
     const graph1 = graphs.lineGraph(
         this.props.graphId,
         this.props.dataset,
@@ -73,11 +73,9 @@ class Graph extends Component {
     this.setState({graph1});
   }
   /**
-   * @return {*}
+   * @return {*} HTML do be rendered component
    */
   render() {
-    console.log('Rendering Graph Component..');
-    console.log(this.state.filter);
     return (
       <div>
         {this.props.dataset.length > 0 && this.props.dropdownVisible &&
